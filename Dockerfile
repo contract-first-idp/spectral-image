@@ -1,10 +1,12 @@
-FROM ubuntu:latest
+FROM node:16-alpine
 
-# Install Node.js and Spectral
-RUN apt-get update && apt-get install -y curl && \
-    curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
-    apt-get install -y nodejs && \
-    npm install -g @stoplight/spectral
+WORKDIR /usr/src/spectral
 
-# Define an entry point
-ENTRYPOINT ["spectral"]
+COPY scripts/install.sh /usr/src/spectral/
+COPY packages/cli/package.json /usr/src/spectral/
+RUN apk --no-cache add curl jq
+RUN ./install.sh $(cat package.json | jq -r '.version') \
+  && rm ./install.sh && rm ./package.json
+ENV NODE_ENV production
+
+ENTRYPOINT [ "spectral" ]
