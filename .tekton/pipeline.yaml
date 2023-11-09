@@ -8,16 +8,19 @@ spec:
     This pipeline clones a git repo, builds a Docker image with buildah and
     pushes it to a registry
   params:
-  - name: repo-url
+  - default: https://github.com/janus-api-idp/spectral-image.git
+    name: repo-url
     type: string
-  - name: gitRevision
+  - default: main
+    name: gitRevision
     type: string
-  - name: image-reference
+  - default: image-registry.openshift-image-registry.svc:5000/developer-hub/spectral:latest
+    name: image-reference
     type: string
-  - name: dockerfile-path
+  - default: ./Dockerfile
+    name: dockerfile-path
     type: string
   workspaces:
-  - name: quay-credentials
   - name: shared-data
   tasks:
   - name: fetch-source
@@ -38,8 +41,6 @@ spec:
       name: buildah
       kind: ClusterTask
     workspaces:
-    - name: dockerconfig
-      workspace: quay-credentials
     - name: source
       workspace: shared-data
     params:
