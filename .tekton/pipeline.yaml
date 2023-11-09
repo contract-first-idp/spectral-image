@@ -13,7 +13,7 @@ spec:
   - default: main
     name: gitRevision
     type: string
-  - default: image-registry.openshift-image-registry.svc:5000/developer-hub/spectral:latest
+  - default: image-registry.openshift-image-registry.svc:5000/openshift/spectral:latest
     name: image-reference
     type: string
   - default: ./Dockerfile

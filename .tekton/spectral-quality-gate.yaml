@@ -1,0 +1,24 @@
+apiVersion: tekton.dev/v1beta1
+kind: ClusterTask
+metadata:
+  name: spectral-quality-gate
+spec:
+  params:
+  - name: RULES_PATH
+    description: Path to the spectral rules for validation
+    default: ./.spectral.yaml
+  - name: API_PATH
+    description: Path to the api to validate
+  - name: IMAGE
+    description: Reference of the spectral docker image
+  workspaces:
+  - name: source
+  steps:
+    - name: spectral
+      image: $(params.IMAGE)
+      workingDir: $(workspaces.source.path)
+      command:
+        - sh
+      args:
+        - -c
+        - spectral lint $(params.API_PATH) --ruleset $(params.RULES_PATH)
