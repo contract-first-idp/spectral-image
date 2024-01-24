@@ -6,7 +6,7 @@ spec:
   params:
   - name: RULES_PATH
     description: Path to the spectral rules for validation
-    default: ./.spectral.yaml
+    default: ./ruleset.yaml
   - name: API_PATH
     description: Path to the api to validate
   - name: IMAGE
